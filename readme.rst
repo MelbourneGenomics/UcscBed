@@ -8,13 +8,13 @@ process the genes list from the UCSC ftp site for any reference genome.
 ------------
 Installation
 ------------
-Just run `pip install ucsc_bed`
+Just run :code:`pip install ucsc_bed`
 
 ---
 CLI
 ---
-Use `ucsc_bed REFERENCE --email EMAIL > exons.bed`, where `REFERENCE` is the name of the genome build you want a bed file for
-(e.g. `hg19`, `hg38` etc.), and `EMAIL` is your email address that is used when logging onto the UCSC FTP site (you don't require
+Use :code:`ucsc_bed REFERENCE --email EMAIL > exons.bed`, where :code:`REFERENCE` is the name of the genome build you want a bed file for
+(e.g. `hg19`, `hg38` etc.), and :code:`EMAIL` is your email address that is used when logging onto the UCSC FTP site (you don't require
 registration)
 
 ---

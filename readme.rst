@@ -23,6 +23,7 @@ API
 You can also access the bed file in python like this:
 
 .. code:: python
+
 	import ucsc_bed
 
 	bed_str = ucsc_bed.download_table('hg38', 'email@email.com')

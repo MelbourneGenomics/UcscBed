@@ -24,10 +24,11 @@ setup(
     ],
     keywords='bioinformatics ucsc bed',
     packages=find_packages(),
-    install_requires=['pandas'],
+    install_requires=['pandas', 'mysqlclient', 'sqlalchemy'],
     entry_points={
         'console_scripts': [
             'ucsc_bed=ucsc_bed:main'
         ]
-    }
+    },
+    test_suite='test'
 )

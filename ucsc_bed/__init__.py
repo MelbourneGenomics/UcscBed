@@ -17,7 +17,7 @@ def get_args():
     parser.add_argument('--email', '-e', required=False, help='The email address to use when logging onto the ftp site')
     parser.add_argument('--method', '-m', choices=['ftp', 'sql'],
                         help='The method to use to obtain the transcript information', default='sql')
-    parser.add_argument('--strip-alt', '-a', required=False,
+    parser.add_argument('--strip-alt', '-a', required=False, default=False, action='store_true',
                         help='Strip the exons on alternative contigs (e.g. from HG38 onwards)')
 
     return parser.parse_args()
@@ -61,8 +61,6 @@ def query_table(reference, limit):
 
 
 def convert_to_bed(left, strip_alt):
-    # TODO: Implement strip_alt
-
     # Split the start and end of the exons into separate series each
     right_components = [
         left[col]
@@ -86,8 +84,15 @@ def convert_to_bed(left, strip_alt):
     )
 
     # Merge the exon data frame with the main data frame on the index that indicates the original row number
-    df = left.ix[:, ['chrom', 'geneName']].merge(right, left_index=True, right_index=True).sort_values(
-        by=['chrom', 'exonStart', 'exonEnd'])
+    df = (
+        left.
+            ix[:, ['chrom', 'geneName']]
+            .merge(right, left_index=True, right_index=True)
+            .sort_values(by=['chrom', 'exonStart', 'exonEnd'])
+    )
+
+    if strip_alt:
+        df = df[~df.chrom.str.contains('_alt')]
 
     return df.to_csv(sep='\t', columns=['chrom', 'exonStart', 'exonEnd', 'geneName'], index=False, header=False)
 
@@ -110,7 +115,7 @@ def main():
     Command line entry point. Has no python parameters, so parses its parameters from argv
     """
     args = get_args()
-    bed = generate_bed(**args)
+    bed = generate_bed(**vars(args))
     print(bed)
 
 
